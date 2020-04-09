@@ -1,0 +1,5 @@
+src/
+tests/
+.vscode/
+index.ts
+dist/sandbox.js
