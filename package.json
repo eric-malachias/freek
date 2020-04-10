@@ -1,6 +1,6 @@
 {
   "name": "freek",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Freek is a high level controller boiler plate to help organize endpoint handlers.",
   "types": "dist/index.d.ts",
   "main": "dist/index.js",
