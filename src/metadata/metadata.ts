@@ -65,7 +65,6 @@ export class Metadata {
     controller: any,
     data: ControllerOptions,
   ): void {
-
     Object
       .entries(data)
       .forEach(([key, value]) => {

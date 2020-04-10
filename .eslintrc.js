@@ -1,24 +1,37 @@
 module.exports = {
   env: {
-    browser: true,
-    es6: true
+    browser: false,
+    es6: true,
   },
   extends: [
-    'standard'
+    'standard',
   ],
   globals: {
     Atomics: 'readonly',
-    SharedArrayBuffer: 'readonly'
+    SharedArrayBuffer: 'readonly',
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 2018,
-    sourceType: 'module'
+    sourceType: 'module',
   },
   plugins: [
-    '@typescript-eslint'
+    '@typescript-eslint',
   ],
   rules: {
     'comma-dangle': ['error', 'always-multiline'],
-  }
+  },
+  overrides: [
+    {
+      files: ["**/*.ts"],
+      rules: {
+        "no-unused-vars": ["off"],
+        "no-undef": ["off"],
+        "no-useless-constructor": ["off"],
+        "no-empty-function": ["off"],
+        "default-case": ["off"],
+        "class-methods-use-this": ["off"],
+      },
+    },
+  ],
 }
