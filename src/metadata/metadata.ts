@@ -1,5 +1,6 @@
-import { HttpMethod, IControllerStatic, ArgumentSourceType } from '../definition'
+import { IControllerStatic, ArgumentSourceType } from '../definition'
 import { HttpStatus } from '../http-status'
+import { HttpMethod } from '../http-method'
 
 export type ControllerOptions = {
   prefix?: string,

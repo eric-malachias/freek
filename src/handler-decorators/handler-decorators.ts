@@ -1,6 +1,7 @@
-import { HttpMethod, ArgumentSourceType } from '../definition'
+import { ArgumentSourceType } from '../definition'
 import { HttpStatus } from '../http-status'
 import { Metadata } from '../metadata'
+import { HttpMethod } from '../http-method'
 
 export function Method (method: HttpMethod, url: string) {
   return (target: any, methodName: string) => {

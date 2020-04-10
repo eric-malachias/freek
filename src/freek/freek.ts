@@ -1,10 +1,11 @@
 import express, { Express } from 'express'
 import { ControllerRegister } from '../controller-register'
-import { HttpMethod, ArgumentSourceType } from '../definition'
+import { ArgumentSourceType } from '../definition'
 import { HttpStatus } from '../http-status'
 import { Metadata, ControllerHandlerArgumentOptions } from '../metadata'
 import { FreekRequest } from '../freek-request'
 import { Decorator } from '../decorator'
+import { HttpMethod } from '../http-method'
 
 export type FreekConfig = {
   port?: number,
