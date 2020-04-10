@@ -6,15 +6,6 @@ export enum HttpMethod {
   Put = 'put',
 }
 
-export enum HttpStatus {
-  Success = 200,
-  Created = 201,
-  BadRequest = 400,
-  NotFound = 404,
-  UnprocessableEntity = 422,
-  ServerError = 500,
-}
-
 export enum MetadataTag {
   ControllerPrefix = 'controller:prefix',
   ControllerHandler = 'controller:handler',

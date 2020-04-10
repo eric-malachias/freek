@@ -1,6 +1,7 @@
 import express, { Express } from 'express'
 import { ControllerRegister } from '../controller-register'
-import { HttpMethod, HttpStatus } from '../definition'
+import { HttpMethod } from '../definition'
+import { HttpStatus } from '../http-status'
 import { Metadata } from '../metadata'
 
 export type FreekConfig = {
@@ -26,7 +27,7 @@ export class Freek {
       handlers.forEach(handler => {
         const url = handler.url ?? ''
         const method = handler.method ?? HttpMethod.Get
-        const status = handler.status ?? HttpStatus.Success
+        const status = handler.status ?? HttpStatus.Ok
 
         router[method](url, (_, res) => {
           try {
@@ -39,7 +40,7 @@ export class Freek {
           } catch (err) {
             // TODO: handle this better
             res
-              .status(HttpStatus.ServerError)
+              .status(HttpStatus.InternalServerError)
               .json(null)
           }
         })

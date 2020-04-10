@@ -1,4 +1,5 @@
-import { HttpMethod, HttpStatus } from '../definition'
+import { HttpMethod } from '../definition'
+import { HttpStatus } from '../http-status'
 import { Metadata } from '../metadata'
 
 export function Method (method: HttpMethod, url: string) {
