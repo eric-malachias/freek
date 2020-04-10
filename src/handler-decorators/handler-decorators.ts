@@ -1,4 +1,4 @@
-import { HttpMethod } from '../definition'
+import { HttpMethod, ArgumentSourceType } from '../definition'
 import { HttpStatus } from '../http-status'
 import { Metadata } from '../metadata'
 
@@ -40,4 +40,30 @@ export function Status (status: HttpStatus) {
       { status },
     )
   }
+}
+
+function Argument (type: ArgumentSourceType, name: string) {
+  return (target: any, methodName: string, argumentIndex: number) => {
+    Metadata.setForControllerHandlerArgument(
+      (target as any).constructor,
+      methodName,
+      {
+        name,
+        index: argumentIndex,
+        type,
+      },
+    )
+  }
+}
+
+export function Body (name: string) {
+  return Argument(ArgumentSourceType.Body, name)
+}
+
+export function Param (name: string) {
+  return Argument(ArgumentSourceType.Param, name)
+}
+
+export function Query (name: string) {
+  return Argument(ArgumentSourceType.Query, name)
 }

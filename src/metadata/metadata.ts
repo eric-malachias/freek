@@ -1,4 +1,4 @@
-import { HttpMethod, IControllerStatic } from '../definition'
+import { HttpMethod, IControllerStatic, ArgumentSourceType } from '../definition'
 import { HttpStatus } from '../http-status'
 
 export type ControllerOptions = {
@@ -6,9 +6,19 @@ export type ControllerOptions = {
 }
 
 export type ControllerHandlerOptions = {
+  arguments?: ControllerHandlerArgumentOptions[],
   method?: HttpMethod,
   status?: HttpStatus,
   url?: string,
+}
+
+export type ControllerHandlerArgumentOptions = {
+  index: number,
+  name: string,
+  type: ArgumentSourceType.Body | ArgumentSourceType.Param | ArgumentSourceType.Query,
+} | {
+  index: number,
+  type: ArgumentSourceType.Unknown,
 }
 
 export class Metadata {
@@ -82,5 +92,32 @@ export class Metadata {
       .forEach(([key, value]) => {
         Reflect.defineMetadata(key, value, controller, methodName)
       })
+  }
+
+  public static setForControllerHandlerArgument (
+    controller: IControllerStatic,
+    methodName: string,
+    data: ControllerHandlerArgumentOptions,
+  ): void {
+    const args: ControllerHandlerArgumentOptions[] = Metadata.getForControllerHandler(
+      controller,
+      methodName,
+      'arguments',
+    ) ?? new Array(controller.prototype[methodName].length)
+      .fill(null)
+      .map((_, index) => ({
+        index,
+        type: ArgumentSourceType.Unknown,
+      }))
+
+    args[data.index] = data
+
+    this.setForControllerHandler(
+      controller,
+      methodName,
+      {
+        arguments: args,
+      },
+    )
   }
 }

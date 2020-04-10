@@ -1,8 +1,10 @@
 import express, { Express } from 'express'
 import { ControllerRegister } from '../controller-register'
-import { HttpMethod } from '../definition'
+import { HttpMethod, ArgumentSourceType } from '../definition'
 import { HttpStatus } from '../http-status'
-import { Metadata } from '../metadata'
+import { Metadata, ControllerHandlerArgumentOptions } from '../metadata'
+import { FreekRequest } from '../freek-request'
+import { Decorator } from '../decorator'
 
 export type FreekConfig = {
   port?: number,
@@ -24,22 +26,38 @@ export class Freek {
 
       app.use(metadata.prefix ?? '/', router)
 
-      handlers.forEach(handler => {
-        const url = handler.url ?? ''
-        const method = handler.method ?? HttpMethod.Get
-        const status = handler.status ?? HttpStatus.Ok
+      handlers.forEach(handlerMetadata => {
+        const url = handlerMetadata.url ?? ''
+        const method = handlerMetadata.method ?? HttpMethod.Get
+        const status = handlerMetadata.status ?? HttpStatus.Ok
+        const handler = controller[handlerMetadata.name]
+        const options = handlerMetadata.arguments ?? new Array(handler.length)
+          .fill(null)
+          .map((_, index): ControllerHandlerArgumentOptions => ({
+            index,
+            type: ArgumentSourceType.Unknown,
+          }))
 
-        router[method](url, (_, res) => {
+        router[method](url, (request, response, next) => {
           try {
-            const result = controller[handler.name]()
+            const freekRequest = new FreekRequest({
+              request,
+              response,
+              next,
+            })
+            const argumentValues = Decorator.getArguments(
+              options,
+              freekRequest,
+            )
+            const result = handler.apply(controller, argumentValues)
 
-            res
+            response
               .status(status)
-              // TODO: optional wrapper structure
+              // TODO: #next optional wrapper structure
               .json(result)
           } catch (err) {
             // TODO: handle this better
-            res
+            response
               .status(HttpStatus.InternalServerError)
               .json(null)
           }
