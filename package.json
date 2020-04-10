@@ -2,9 +2,22 @@
   "name": "freek",
   "version": "0.0.0",
   "description": "Freek is a high level controller boiler plate to help organize endpoint handlers.",
+  "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "author": "Eric Malachias <malachias.eric@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "controller",
+    "request",
+    "response",
+    "endpoint",
+    "router",
+    "routing"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eric-malachias/freek.git"
+  },
   "devDependencies": {
     "@types/chai": "4.2.11",
     "@types/express": "4.17.6",
@@ -26,7 +39,7 @@
     "typescript": "3.8.3"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf ./dist && tsc",
     "test": "mocha -r ts-node/register src/**/*.test.ts",
     "test:watch": "nodemon -e ts --exec 'npm run test || exit 1'",
     "lint": "eslint ./src/**/*.ts"
@@ -39,5 +52,9 @@
     "hooks": {
       "pre-commit": "yarn lint && yarn test"
     }
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/eric-malachias/freek/issues"
+  },
+  "homepage": "https://github.com/eric-malachias/freek#readme"
 }
