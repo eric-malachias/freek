@@ -42,7 +42,7 @@ export function Status (status: HttpStatus) {
   }
 }
 
-function Argument (type: ArgumentSourceType, name: string) {
+function Argument (type: ArgumentSourceType, name?: string) {
   return (target: any, methodName: string, argumentIndex: number) => {
     Metadata.setForControllerHandlerArgument(
       (target as any).constructor,
@@ -56,14 +56,14 @@ function Argument (type: ArgumentSourceType, name: string) {
   }
 }
 
-export function Body (name: string) {
+export function Body (name?: string) {
   return Argument(ArgumentSourceType.Body, name)
 }
 
-export function Param (name: string) {
+export function Param (name?: string) {
   return Argument(ArgumentSourceType.Param, name)
 }
 
-export function Query (name: string) {
+export function Query (name?: string) {
   return Argument(ArgumentSourceType.Query, name)
 }

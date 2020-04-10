@@ -14,7 +14,7 @@ export type ControllerHandlerOptions = {
 
 export type ControllerHandlerArgumentOptions = {
   index: number,
-  name: string,
+  name?: string,
   type: ArgumentSourceType.Body | ArgumentSourceType.Param | ArgumentSourceType.Query,
 } | {
   index: number,

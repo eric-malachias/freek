@@ -16,11 +16,17 @@ export class Decorator {
 
     switch (options.type) {
       case ArgumentSourceType.Body:
-        return expressRequest.body[options.name] ?? null
+        return options.name === undefined
+          ? expressRequest.body
+          : expressRequest.body[options.name] ?? null
       case ArgumentSourceType.Param:
-        return expressRequest.params[options.name] ?? null
+        return options.name === undefined
+          ? expressRequest.params
+          : expressRequest.params[options.name] ?? null
       case ArgumentSourceType.Query:
-        return expressRequest.query[options.name] ?? null
+        return options.name === undefined
+          ? expressRequest.query
+          : expressRequest.query[options.name] ?? null
     }
   }
 
