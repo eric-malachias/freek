@@ -5,7 +5,9 @@ export class ControllerRegister {
     return ControllerRegister.controllers
   }
 
-  public static register (controller: typeof Function): void {
-    ControllerRegister.controllers.add(controller)
+  public static register (controller: any): void {
+    ControllerRegister
+      .getControllers()
+      .add(controller)
   }
 }
