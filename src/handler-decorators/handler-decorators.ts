@@ -1,13 +1,13 @@
-import { Controller } from '../controller'
-import { ControllerHandlerManager } from '../controller-handler-manager'
 import { HttpMethod, HttpStatus } from '../definition'
+import { Metadata } from '../metadata'
 
 export function Method (method: HttpMethod, url: string) {
-  return (target: typeof Controller.prototype, methodName: string) => {
-    ControllerHandlerManager
-      .getHandler((target as any).constructor, methodName)
-      .setMethod(method)
-      .setUrl(url)
+  return (target: any, methodName: string) => {
+    Metadata.setForControllerHandler(
+      (target as any).constructor,
+      methodName,
+      { method, url },
+    )
   }
 }
 
@@ -32,9 +32,11 @@ export function Put (url: string) {
 }
 
 export function Status (status: HttpStatus) {
-  return (target: typeof Controller.prototype, methodName: string) => {
-    ControllerHandlerManager
-      .getHandler((target as any).constructor, methodName)
-      .setStatus(status)
+  return (target: any, methodName: string) => {
+    Metadata.setForControllerHandler(
+      (target as any).constructor,
+      methodName,
+      { status },
+    )
   }
 }

@@ -1,8 +1,10 @@
-import { Controller } from '../controller'
+import { ControllerRegister } from '../controller-register'
+import { ControllerOptions, Metadata } from '../metadata'
 
-export function Prefix (prefix: string) {
-  return (target: typeof Controller) => {
-    console.log(!!target && !!prefix)
-    // target.prototype.setPrefix(prefix)
+export function Controller (options: ControllerOptions = {}) {
+  return (target: any) => {
+    ControllerRegister.register(target)
+
+    Metadata.setForController(target, options)
   }
 }
