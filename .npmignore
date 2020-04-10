@@ -1,5 +1,6 @@
-src/
-tests/
 .vscode/
+src/
+.eslintrc.js
 index.ts
 dist/sandbox.js
+tsconfig.json

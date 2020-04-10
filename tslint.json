@@ -1,6 +1,0 @@
-{
-  "extends": ["./node_modules/settings/tslint"],
-  "rules": {
-    "prefer-function-over-method": false
-  }
-}
