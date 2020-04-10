@@ -1,7 +1,8 @@
-import { Controller } from '../controller/controller'
+import { Controller } from '../controller'
 
 export function Prefix (prefix: string) {
   return (target: typeof Controller) => {
-    target.prototype.setPrefix(prefix)
+    console.log(!!target && !!prefix)
+    // target.prototype.setPrefix(prefix)
   }
 }

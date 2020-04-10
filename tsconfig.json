@@ -13,6 +13,6 @@
     "outDir": "./dist",
     "experimentalDecorators": true,
   },
-  "include": ["src"],
+  "include": ["src", "sandbox/sandbox.ts"],
   "exclude": ["node_modules"],
 }
