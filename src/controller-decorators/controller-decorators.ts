@@ -1,10 +1,11 @@
 import { ControllerRegister } from '../controller-register'
 import { ControllerOptions, Metadata } from '../metadata'
+import { IControllerStatic } from '../definition'
 
 export function Controller (options: ControllerOptions = {}) {
-  return (target: any) => {
-    ControllerRegister.register(target)
+  return (controller: IControllerStatic) => {
+    ControllerRegister.register(controller)
 
-    Metadata.setForController(target, options)
+    Metadata.setForController(controller, options)
   }
 }

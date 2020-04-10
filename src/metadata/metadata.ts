@@ -1,4 +1,4 @@
-import { HttpMethod } from '../definition'
+import { HttpMethod, IControllerStatic } from '../definition'
 import { HttpStatus } from '../http-status'
 
 export type ControllerOptions = {
@@ -12,7 +12,7 @@ export type ControllerHandlerOptions = {
 }
 
 export class Metadata {
-  public static getAllForController (controller: any): ControllerOptions {
+  public static getAllForController (controller: IControllerStatic): ControllerOptions {
     const keys = Reflect.getMetadataKeys(controller) as (keyof ControllerOptions)[]
 
     return keys.reduce(
@@ -25,7 +25,7 @@ export class Metadata {
   }
 
   public static getAllForControllerHandlers (
-    controller: any,
+    controller: IControllerStatic,
   ): (ControllerHandlerOptions & { name: string })[] {
     return Object
       .getOwnPropertyNames(controller.prototype)
@@ -46,23 +46,23 @@ export class Metadata {
       }))
   }
 
-  public static getForController (
-    controller: any,
-    key: string,
-  ): any {
+  public static getForController<T extends keyof ControllerOptions> (
+    controller: IControllerStatic,
+    key: T,
+  ): ControllerOptions[T] {
     return Reflect.getMetadata(key, controller)
   }
 
-  public static getForControllerHandler (
-    controller: any,
+  public static getForControllerHandler<T extends keyof ControllerHandlerOptions> (
+    controller: IControllerStatic,
     methodName: string,
-    key: keyof ControllerHandlerOptions,
-  ): any {
+    key: T,
+  ): ControllerHandlerOptions[T] {
     return Reflect.getMetadata(key, controller, methodName)
   }
 
   public static setForController (
-    controller: any,
+    controller: IControllerStatic,
     data: ControllerOptions,
   ): void {
     Object
@@ -73,7 +73,7 @@ export class Metadata {
   }
 
   public static setForControllerHandler (
-    controller: any,
+    controller: IControllerStatic,
     methodName: string,
     data: ControllerHandlerOptions,
   ): void {

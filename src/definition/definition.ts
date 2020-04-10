@@ -6,15 +6,11 @@ export enum HttpMethod {
   Put = 'put',
 }
 
-export enum MetadataTag {
-  ControllerPrefix = 'controller:prefix',
-  ControllerHandler = 'controller:handler',
+// TODO: improve this
+export interface IController {
+  [key: string]: any
 }
 
-export interface IRouter {
-  delete (url: string): void
-  get (url: string): void
-  patch (url: string): void
-  post (url: string): void
-  put (url: string): void
+export interface IControllerStatic {
+  new (...args: any[]): IController
 }
