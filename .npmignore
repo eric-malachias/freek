@@ -3,4 +3,5 @@ src/
 .eslintrc.js
 index.ts
 dist/sandbox.js
+ist/sandbox.d.ts
 tsconfig.json
