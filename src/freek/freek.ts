@@ -1,3 +1,4 @@
+import { join } from 'path'
 import express, { Express } from 'express'
 import { ControllerRegister } from '../controller-register'
 import { ArgumentSourceType } from '../definition'
@@ -8,24 +9,38 @@ import { Decorator } from '../decorator'
 import { HttpMethod } from '../http-method'
 
 export type FreekConfig = {
+  prefix?: string,
   port?: number,
 }
 
 const DEFAULT_PORT = 3000
+const DEFAULT_PREFIX = '/'
 
-export class Freek {
-  private static bootstrapped: boolean = false
+export default class Freek {
+  private server: Express | null = null
 
-  private static createRoutes (app: Express): void {
+  private bootstrapped: boolean = false
+
+  constructor (
+    private readonly config: FreekConfig,
+  ) {}
+
+  // TODO: break this down, too long
+  private createRoutes (): void {
     const controllers = ControllerRegister.getControllers()
+    const server = this.getServer()
 
     controllers.forEach(Controller => {
       const metadata = Metadata.getAllForController(Controller)
       const handlers = Metadata.getAllForControllerHandlers(Controller)
       const router = express.Router()
       const controller = new Controller()
+      const prefix = join(
+        metadata.prefix ?? '/',
+        this.getPrefix(),
+      )
 
-      app.use(metadata.prefix ?? '/', router)
+      server.use(prefix, router)
 
       handlers.forEach(handlerMetadata => {
         const url = handlerMetadata.url ?? ''
@@ -67,18 +82,36 @@ export class Freek {
     })
   }
 
-  public static async bootstrap (config: FreekConfig): Promise<void> {
+  private createServer (): void {
+    this.server = this.server ?? express()
+  }
+
+  private getPort (): number {
+    return this.config.port ?? DEFAULT_PORT
+  }
+
+  private getPrefix (): string {
+    return this.config.prefix ?? DEFAULT_PREFIX
+  }
+
+  public async bootstrap (): Promise<void> {
     if (this.bootstrapped) {
       throw new Error('Freek.bootstrap() has already been called!')
     }
 
-    const port = config.port ?? DEFAULT_PORT
-    const app = express()
-
-    Freek.createRoutes(app)
+    this.createServer()
+    this.createRoutes()
 
     return new Promise<void>(resolve => {
-      app.listen(port, () => resolve())
+      this.getServer().listen(this.getPort(), () => resolve())
     })
+  }
+
+  public getServer (): Express {
+    if (!this.server) {
+      throw new Error('You need to call .bootstrap() first!')
+    }
+
+    return this.server
   }
 }
