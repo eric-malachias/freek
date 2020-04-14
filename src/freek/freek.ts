@@ -54,7 +54,7 @@ export default class Freek {
             type: ArgumentSourceType.Unknown,
           }))
 
-        router[method](url, (request, response, next) => {
+        router[method](url, async (request, response, next) => {
           try {
             const freekRequest = new FreekRequest({
               request,
@@ -65,7 +65,7 @@ export default class Freek {
               options,
               freekRequest,
             )
-            const result = handler.apply(controller, argumentValues)
+            const result = await handler.apply(controller, argumentValues)
 
             response
               .status(status)
