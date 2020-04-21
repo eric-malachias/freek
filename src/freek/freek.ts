@@ -7,6 +7,7 @@ import { Metadata, ControllerHandlerArgumentOptions } from '../metadata'
 import { FreekRequest } from '../freek-request'
 import { Decorator } from '../decorator'
 import { HttpMethod } from '../http-method'
+import { HttpError } from '../http-error'
 
 export type FreekConfig = {
   prefix?: string,
@@ -72,6 +73,13 @@ export default class Freek {
               // TODO: #next optional wrapper structure
               .json(result)
           } catch (err) {
+            if (err instanceof HttpError) {
+              response
+                .status(err.getStatus())
+                .json({ details: err.getDetails() })
+              return
+            }
+
             // TODO: handle this better
             response
               .status(HttpStatus.InternalServerError)
