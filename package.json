@@ -39,7 +39,8 @@
     "typescript": "3.8.3"
   },
   "scripts": {
-    "build": "rm -rf ./dist && tsc",
+    "copy-templates": "cp -R ./src/bin/templates ./dist/bin/templates",
+    "build": "rm -rf ./dist && tsc && npm run copy-templates",
     "test": "mocha -r ts-node/register src/**/*.test.ts",
     "test:watch": "nodemon -e ts --exec 'npm run test || exit 1'",
     "lint": "eslint ./src/**/*.ts"
@@ -56,5 +57,8 @@
   "bugs": {
     "url": "https://github.com/eric-malachias/freek/issues"
   },
-  "homepage": "https://github.com/eric-malachias/freek#readme"
+  "homepage": "https://github.com/eric-malachias/freek#readme",
+  "bin": {
+    "freek": "./dist/bin/cli.js"
+  }
 }
