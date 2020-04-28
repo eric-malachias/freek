@@ -4,8 +4,10 @@ import { Controller } from 'freek'
   prefix: '{{name.kebab}}',
 })
 export class {{name.pascal}} {
-  @Get('/')
-  public get{{name.pascal}} (): {{name.pascal}}[] {
-    return []
-  }
+  // Add your controller handlers here:
+  //
+  // @Get('/')
+  // public get{{name.pascal}} (): {{name.pascal}}[] {
+  //   return []
+  // }
 }
