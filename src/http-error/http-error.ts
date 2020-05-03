@@ -8,12 +8,12 @@ export class HttpError extends Error {
     super()
   }
 
-  public getName (): string {
-    return this.constructor.name
-  }
-
   public getDetails (): string {
     return this.details ?? `${this.status}`
+  }
+
+  public getName (): string {
+    return this.constructor.name
   }
 
   public getStatus (): HttpStatus {
